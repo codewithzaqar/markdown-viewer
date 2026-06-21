@@ -4,33 +4,33 @@ const md = window.markdownit({
   typographer: true,
 });
 
-const markdownInput = document.getElementById("markdown-input");
-const markdownOutput = document.getElementById("markdown-output");
-const chkSyncScroll = document.getElementById("chk-sync-scroll");
+const markdownInput = document.getElementById('markdown-input');
+const markdownOutput = document.getElementById('markdown-output');
+const chkSyncScroll = document.getElementById('chk-sync-scroll');
 
-markdownInput.addEventListener("input", () => {
+markdownInput.addEventListener('input', () => {
   const markdownText = markdownInput.value;
   const htmlText = md.render(markdownText);
   markdownOutput.innerHTML = htmlText;
 });
 
-document.getElementById("btn-reset").addEventListener("click", () => {
-  markdownInput.value = "";
-  markdownOutput.innerHTML = "";
+document.getElementById('btn-reset').addEventListener('click', () => {
+  markdownInput.value = '';
+  markdownOutput.innerHTML = '';
 });
 
-document.getElementById("btn-copy").addEventListener("click", () => {
+document.getElementById('btn-copy').addEventListener('click', () => {
   markdownInput.select();
-  document.execCommand("copy");
+  document.execCommand('copy');
 });
 
 chkSyncScroll.addEventListener('change', () => {
   if (chkSyncScroll.checked) {
-    markdownInput.addEventListener("scroll", syncScroll);
-    markdownOutput.addEventListener("scroll", syncScroll);
+    markdownInput.addEventListener('scroll', syncScroll);
+    markdownOutput.addEventListener('scroll', syncScroll);
   } else {
-    markdownInput.removeEventListener("scroll", syncScroll);
-    markdownOutput.removeEventListener("scroll", syncScroll);
+    markdownInput.removeEventListener('scroll', syncScroll);
+    markdownOutput.removeEventListener('scroll', syncScroll);
   }
 });
 
@@ -106,7 +106,7 @@ document.getElementById('export-as').addEventListener('change', () => {
   } else if (selectedOption === 'markdown') {
     const markdownText = markdownInput.value;
     const blob = new Blob([markdownText], { type: 'text/markdown' });
-    const a = document.createElement('a')
+    const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'exported_markdown.md';
     document.body.appendChild(a);
@@ -117,7 +117,7 @@ document.getElementById('export-as').addEventListener('change', () => {
   document.getElementById('export-as').selectedIndex = 0;
 });
 
-document.getElementById('import').addEventListener('change', () => {
+document.getElementById('import').addEventListener('change', (event) => {
   const selectedOption = event.target.value;
   const turndown = new TurndownService();
 
@@ -134,7 +134,7 @@ document.getElementById('import').addEventListener('change', () => {
         const importedHtml = event.target.result;
         const markdownText = turndown.turndown(importedHtml);
         markdownInput.value = markdownText.trim();
-        const htmlText = md.reader(markdownText);
+        const htmlText = md.render(markdownText);
         markdownOutput.innerHTML = htmlText;
       };
 
